@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"cd server\" \"cd ..\" \"react-scripts start\" \"cd client\" "
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

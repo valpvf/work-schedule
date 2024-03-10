@@ -39,7 +39,7 @@ const Navigation = () => {
         )}
       </List> */}
       <List>
-        <ListItem button component={Link} to="settings">
+        <ListItem button component={RouterLink} to="settings">
           <ListItemIcon>
             <SettingsIcon />
           </ListItemIcon>
