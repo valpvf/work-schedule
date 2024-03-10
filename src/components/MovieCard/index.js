@@ -1,20 +1,11 @@
 import {
-  Avatar,
   Card,
-  CardActions,
   CardContent,
-  CardHeader,
   CardMedia,
   IconButton,
-  Menu,
-  MenuItem,
   Typography,
 } from "@mui/material";
-import { red } from "@mui/material/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { Unstable_Popup as BasePopup } from "@mui/base/Unstable_Popup";
 
 const MovieCard = () => {
   return (
@@ -32,7 +23,7 @@ const MovieCard = () => {
         aria-haspopup="true"
       >
         <MoreVertIcon />
-        <BasePopup open={true}>
+        {/* <BasePopup open={true}>
           <Menu
             id="long-menu"
             MenuListProps={{
@@ -49,10 +40,9 @@ const MovieCard = () => {
               onClick={() => {}}
             >
               Add
-              {/* {option} */}
             </MenuItem>
           </Menu>
-        </BasePopup>
+        </BasePopup> */}
       </IconButton>
 
       <CardMedia

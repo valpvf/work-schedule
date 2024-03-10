@@ -97,10 +97,10 @@ const Navigation = () => {
 
             <Button
               component={RouterLink}
+              sx={{ my: 2, color: "white", display: "block" }}
               to="settings"
               // key={page}
-              // onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: "white", display: "block" }}
+              onClick={() => {}}
             >
               Settings
               {/* {page} */}
