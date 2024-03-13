@@ -1,7 +1,7 @@
 // 1
 datasource db {
   provider = "sqlite"
-  url      = "file:./dev.db"
+  url      = env("DATABASE_LOCAL")
 }
 
 // 2
@@ -18,14 +18,19 @@ model Link {
 }
 
 model Person {
-  id          Int      @id @default(autoincrement())
-  positionId  Int
-  lastName    String
-  firstName   String
-  surname     String
+  id           Int      @id @default(autoincrement())
+  positionId   Int
+  lastName     String
+  firstName    String
+  surname      String
   dateBirthday DateTime
-  address     String
-  tlf         String
-  tlf2        String?
-  out         String?
+  address      String
+  tlf          String
+  tlf2         String?
+  out          String?
+}
+
+model Position {
+  id       Int    @id @default(autoincrement())
+  position String
 }

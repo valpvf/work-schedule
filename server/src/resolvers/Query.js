@@ -1,4 +1,4 @@
-const { person: prs, position } = require("./../data");
+// const { position } = require("./../dataPerson.js");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
@@ -10,7 +10,7 @@ async function person(parent, args, context) {
     where: { id: +args.id },
   });
 
-  const pos = position.filter(
+  const pos = await context.prisma.position.findMany(
     (item) => item.id == user[0].positionId
   );
   const data = {
@@ -22,10 +22,11 @@ async function person(parent, args, context) {
 
 async function persons(parent, args, context) {
   const user = await context.prisma.person.findMany();
-  // console.log("user", user);
+  const pos = await context.prisma.position.findMany();
+
   const persons = user.map((item) => ({
     ...item,
-    positionId: position.find((pos) => pos.id == item.positionId),
+    positionId: pos.find((post) => post.id == item.positionId),
   }));
   return persons;
 }

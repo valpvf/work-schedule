@@ -1,9 +1,11 @@
 import * as React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 import { Box, Container, CssBaseline } from "@mui/material";
 
 import { Navigation } from "./components";
 import { Home, Recommend, Settings } from "./pages";
+import Persons from "./components/Persons";
 
 function App() {
   return (
@@ -26,7 +28,7 @@ function App() {
         <Container maxWidth="xl">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="settings" element={<Settings />} />
+            <Route path="settings" element={<Persons />} />
             <Route path="recommend" element={<Recommend />} />
           </Routes>
         </Container>

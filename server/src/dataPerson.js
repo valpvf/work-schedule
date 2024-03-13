@@ -1,4 +1,4 @@
-const person = [
+const personBaase = [
   {
     id: 1,
     positionId: 1,
@@ -78,4 +78,4 @@ const position = [
   },
 ];
 
-module.exports = { person, position };
+module.exports = { personBaase, position };
