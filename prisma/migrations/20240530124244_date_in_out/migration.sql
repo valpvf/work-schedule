@@ -24,6 +24,8 @@ CREATE TABLE "Person" (
     "address" TEXT NOT NULL,
     "phone1" INTEGER NOT NULL,
     "phone2" INTEGER,
+    "dateIn" TEXT NOT NULL,
+    "dateOut" TEXT,
     CONSTRAINT "Person_positionId_fkey" FOREIGN KEY ("positionId") REFERENCES "Position" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 

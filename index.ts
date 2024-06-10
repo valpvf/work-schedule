@@ -2,16 +2,11 @@ import { prisma } from "./db.js";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { gql } from "graphql-tag";
+import cors from "cors";
+import { Position } from "@prisma/client";
 
 // index.ts - > index.js
 // db.ts - > db.js
-
-//  type Data {
-//       id: ID
-//       date: String
-//       person: [Person]
-//       personId: String
-//     }
 
 (async function () {
   // .gql
@@ -30,8 +25,10 @@ import { gql } from "graphql-tag";
       surname: String
       birthday: String
       address: String
-      phone1: Int
-      phone2: Int
+      phone1: String
+      phone2: String
+      dateIn: String
+      dateOut: String
       data: String
     }
 
@@ -50,12 +47,49 @@ import { gql } from "graphql-tag";
 
     type Mutation {
       createPost(title: String, username: String): Post
+      createPositiont(position: String): Position
+      updatePerson(
+        id: ID!
+        lastName: String
+        firstName: String
+        surname: String
+        birthday: String
+        address: String
+        phone1: String
+        phone2: String
+        dateIn: String
+        dateOut: String
+        data: String
+        positionId: String
+      ): Person
+      createPosition(position: String): Position
+      updatePosition(id: ID!, position: String): Position
     }
   `;
 
   interface createPostInput {
     title: string;
     username: string;
+  }
+
+  interface createPositiontInput {
+    id: string;
+    position: string;
+  }
+
+  interface createPersonInput {
+    id: string;
+    positionId: string;
+    lastName: string;
+    firstName: string;
+    surname: string;
+    birthday: string;
+    address: string;
+    phone1: string;
+    phone2: string;
+    dateIn: string;
+    dateOut: string;
+    // data: string;
   }
 
   const resolvers = {
@@ -77,7 +111,7 @@ import { gql } from "graphql-tag";
           },
         });
       },
-      getPersonById: async (parent: any, args: any) => {
+      getPersonById: async (_parent: any, args: any) => {
         return await prisma.person.findUnique({
           where: {
             id: args.id,
@@ -97,6 +131,58 @@ import { gql } from "graphql-tag";
           },
         });
         return post;
+      },
+      updatePerson: async (_parent: any, args: createPersonInput) => {
+        const person = await prisma.person.update({
+          where: {
+            id: args.id,
+          },
+          data: {
+            lastName: args.lastName,
+            firstName: args.firstName,
+            surname: args.surname,
+            birthday: args.birthday,
+            address: args.address,
+            phone1: args.phone1,
+            phone2: args.phone2,
+            dateIn: args.dateIn,
+            dateOut: args.dateOut,
+            positionId: args.positionId,
+          },
+          include: {
+            position: true,
+          },
+
+          // },
+          // data: args.data,
+        });
+        return person;
+      },
+      createPosition: async (
+        _parent: any,
+        args: createPositiontInput
+      ) => {
+        const position = await prisma.position.create({
+          data: {
+            position: args.position,
+          },
+        });
+        return position;
+      },
+
+      updatePosition: async (
+        _parent: any,
+        args: createPositiontInput
+      ) => {
+        const position = await prisma.position.update({
+          where: {
+            id: args.id,
+          },
+          data: {
+            position: args.position,
+          },
+        });
+        return position;
       },
     },
   };

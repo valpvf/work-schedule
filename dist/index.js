@@ -4,12 +4,6 @@ import { startStandaloneServer } from "@apollo/server/standalone";
 import { gql } from "graphql-tag";
 // index.ts - > index.js
 // db.ts - > db.js
-//  type Data {
-//       id: ID
-//       date: String
-//       person: [Person]
-//       personId: String
-//     }
 (async function () {
     // .gql
     const typeDefs = gql `
@@ -27,8 +21,10 @@ import { gql } from "graphql-tag";
       surname: String
       birthday: String
       address: String
-      phone1: Int
-      phone2: Int
+      phone1: String
+      phone2: String
+      dateIn: String
+      dateOut: String
       data: String
     }
 
@@ -47,6 +43,23 @@ import { gql } from "graphql-tag";
 
     type Mutation {
       createPost(title: String, username: String): Post
+      createPositiont(position: String): Position
+      updatePerson(
+        id: ID!
+        lastName: String
+        firstName: String
+        surname: String
+        birthday: String
+        address: String
+        phone1: String
+        phone2: String
+        dateIn: String
+        dateOut: String
+        data: String
+        positionId: String
+      ): Person
+      createPosition(position: String): Position
+      updatePosition(id: ID!, position: String): Position
     }
   `;
     const resolvers = {
@@ -60,10 +73,6 @@ import { gql } from "graphql-tag";
                         position: true,
                     },
                 });
-                //   .map((person) => {
-                //   console.log("person.positionId", person.positionId);
-                //   return { ...person, positionId: person.positionId };
-                // });
             },
             getAllPositions: async () => {
                 return await prisma.position.findMany({
@@ -71,14 +80,8 @@ import { gql } from "graphql-tag";
                         persons: true,
                     },
                 });
-                //   .map((position) => {
-                //   const persons = prisma.person.findFirst({
-                //     where: { positionId: position.id },
-                //   });
-                //   return { ...position, persons };
-                // });
             },
-            getPersonById: async (parent, args) => {
+            getPersonById: async (_parent, args) => {
                 return await prisma.person.findUnique({
                     where: {
                         id: args.id,
@@ -87,13 +90,6 @@ import { gql } from "graphql-tag";
                         position: true,
                     },
                 });
-                // const pos = await prisma.position.findUnique({
-                //   where: { id: data.positionId },
-                // });
-                // return {
-                //   ...data,
-                //   // position: pos
-                // };
             },
         },
         Mutation: {
@@ -105,6 +101,50 @@ import { gql } from "graphql-tag";
                     },
                 });
                 return post;
+            },
+            updatePerson: async (_parent, args) => {
+                const person = await prisma.person.update({
+                    where: {
+                        id: args.id,
+                    },
+                    data: {
+                        lastName: args.lastName,
+                        firstName: args.firstName,
+                        surname: args.surname,
+                        birthday: args.birthday,
+                        address: args.address,
+                        phone1: args.phone1,
+                        phone2: args.phone2,
+                        dateIn: args.dateIn,
+                        dateOut: args.dateOut,
+                        positionId: args.positionId,
+                    },
+                    include: {
+                        position: true,
+                    },
+                    // },
+                    // data: args.data,
+                });
+                return person;
+            },
+            createPosition: async (_parent, args) => {
+                const position = await prisma.position.create({
+                    data: {
+                        position: args.position,
+                    },
+                });
+                return position;
+            },
+            updatePosition: async (_parent, args) => {
+                const position = await prisma.position.update({
+                    where: {
+                        id: args.id,
+                    },
+                    data: {
+                        position: args.position,
+                    },
+                });
+                return position;
             },
         },
     };

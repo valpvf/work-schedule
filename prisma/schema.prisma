@@ -41,8 +41,10 @@ model Person {
   surname    String
   birthday   String
   address    String
-  phone1     Int
-  phone2     Int?
+  phone1     String
+  phone2     String?
+  dateIn     String
+  dateOut    String?
   data       Data[]
 }
 
